@@ -18,5 +18,13 @@
         android:id="@+id/onBoardingFragment"
         android:name="com.toonandtools.quoted.onboarding.OnBoardingFragment"
         android:label="fragment_on_boarding"
-        tools:layout="@layout/fragment_on_boarding" />
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.toonandtools.auth.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

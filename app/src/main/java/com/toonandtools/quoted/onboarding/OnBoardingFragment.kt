@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -63,11 +64,20 @@ class OnBoardingFragment : Fragment() {
             if (currentIndex < slides.size - 1) {
                 currentIndex++
                 scrollToSlide(currentIndex)
+            }else{
+                navigateToLoginFragment()
             }
+        }
+        binding.skipButton.setOnClickListener {
+            navigateToLoginFragment()
         }
 
         binding.onboardingRecyclerView.registerOnScrollListener()
         startAutoScroll()
+    }
+
+    private fun navigateToLoginFragment() {
+        findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
     }
 
     private fun scrollToSlide(index: Int) {
