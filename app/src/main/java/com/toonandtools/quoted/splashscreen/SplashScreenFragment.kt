@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.navigation.fragment.findNavController
 import com.toonandtools.quoted.R
 import com.toonandtools.quoted.databinding.FragmentSplashScreenBinding
 
@@ -36,6 +37,7 @@ class SplashScreenFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             // Example: navigate to next fragment
             // findNavController().navigate(R.id.action_splash_to_home)
+            findNavController().navigate(R.id.action_splashScreenFragment_to_onBoardingFragment)
         }, 2000)
     }
 
