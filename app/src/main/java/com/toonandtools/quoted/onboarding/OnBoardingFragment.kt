@@ -1,5 +1,6 @@
 package com.toonandtools.quoted.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearSmoothScroller
+import com.toonandtools.auth.AuthActivity
 
 import com.toonandtools.quoted.R
 import com.toonandtools.quoted.databinding.FragmentOnBoardingBinding
@@ -63,11 +66,20 @@ class OnBoardingFragment : Fragment() {
             if (currentIndex < slides.size - 1) {
                 currentIndex++
                 scrollToSlide(currentIndex)
+            }else{
+                navigateToLoginFragment()
             }
+        }
+        binding.skipButton.setOnClickListener {
+            navigateToLoginFragment()
         }
 
         binding.onboardingRecyclerView.registerOnScrollListener()
         startAutoScroll()
+    }
+
+    private fun navigateToLoginFragment() {
+        startActivity(Intent(requireContext(), AuthActivity::class.java))
     }
 
     private fun scrollToSlide(index: Int) {

@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Quoted"
 include(":app")
- 
+include(":auth")
+include(":core-ui")
