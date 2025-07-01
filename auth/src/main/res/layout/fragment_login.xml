@@ -165,6 +165,7 @@
             android:background="@color/lavender_light"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/iconContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/orViewContainer"
@@ -185,15 +186,15 @@
 
     </LinearLayout>
 
-    <!-- Register Text -->
+
     <LinearLayout
         android:id="@+id/registerEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="124dp">

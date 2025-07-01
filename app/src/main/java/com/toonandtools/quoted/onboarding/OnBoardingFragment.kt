@@ -1,5 +1,6 @@
 package com.toonandtools.quoted.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearSmoothScroller
+import com.toonandtools.auth.AuthActivity
 
 import com.toonandtools.quoted.R
 import com.toonandtools.quoted.databinding.FragmentOnBoardingBinding
@@ -77,7 +79,7 @@ class OnBoardingFragment : Fragment() {
     }
 
     private fun navigateToLoginFragment() {
-        findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
+        startActivity(Intent(requireContext(), AuthActivity::class.java))
     }
 
     private fun scrollToSlide(index: Int) {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763958223290",
+    "project_id": "quoted-app-f929b",
+    "storage_bucket": "quoted-app-f929b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763958223290:android:33944e67f6fdb8179cfd83",
+        "android_client_info": {
+          "package_name": "com.toonandtools.quoted"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaEbPxAUdgMArI18xlOdKErWthO61RHa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
