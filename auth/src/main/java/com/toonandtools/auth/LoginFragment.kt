@@ -80,6 +80,10 @@ class LoginFragment : Fragment() {
             startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
         }
 
+        binding.phoneButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_phoneFragment)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
