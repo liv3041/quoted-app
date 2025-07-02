@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "763958223290-ak3nbmt5aq161bek403rj0ueegnkr98i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toonandtools.quoted",
+            "certificate_hash": "058022712ffa9f752d61dec39644fa812627fa36"
+          }
+        },
+        {
           "client_id": "763958223290-eqcjh73bot25ukuoh38bhc4fda0oq5dk.apps.googleusercontent.com",
           "client_type": 3
         }
