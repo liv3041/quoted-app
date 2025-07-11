@@ -16,10 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.toonandtools.auth.databinding.FragmentLoginBinding
 import com.toonandtools.auth.repository.AuthRepository
+import com.toonandtools.auth.repository.UserRepository
 import com.toonandtools.auth.util.AuthResult
 import com.toonandtools.auth.viewmodel.AuthViewModel
 import com.toonandtools.auth.viewmodel.AuthViewModelFactory
 import com.toonandtools.auth.viewmodel.LoginViewModel
+import com.toonandtools.auth.viewmodel.UserViewModel
+import com.toonandtools.auth.viewmodel.UserViewModelFactory
 import com.toonandtools.core_ui.CoreActivity
 
 
@@ -28,6 +31,8 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var authViewModel: AuthViewModel
     private val GOOGLE_SIGN_IN = 1001
+
+//    private lateinit var userViewModel:UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +52,12 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
+//        val userViewModelFactory = UserViewModelFactory(UserRepository())
+//        userViewModel = ViewModelProvider(this,userViewModelFactory).get(UserViewModel::class.java)
+
+
+
 
 
 
@@ -95,6 +106,13 @@ class LoginFragment : Fragment() {
                 account?.let {
                     authViewModel.signInWithGoogle(it) { success ->
                         if (success) {
+                            val firebaseUser = FirebaseAuth.getInstance().currentUser
+                            firebaseUser?.let { user ->
+                                val userViewModelFactory = UserViewModelFactory(UserRepository())
+                                val userViewModel = ViewModelProvider(this, userViewModelFactory)[UserViewModel::class.java]
+                                userViewModel.saveUserData(user.email ?: "", user.displayName ?: "No Name")
+                            }
+
                             Toast.makeText(requireContext(), "Signed in as ${it.displayName}", Toast.LENGTH_SHORT).show()
                             // Navigate to next screen or update UI
                             startActivity(Intent(requireContext(), CoreActivity::class.java))

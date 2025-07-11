@@ -1,2 +1,3 @@
 /build
 auth/src/main/res/values/secrets.xml
+auth/src/main/java/com/toonandtools/quoted/main/UserRepository.kt

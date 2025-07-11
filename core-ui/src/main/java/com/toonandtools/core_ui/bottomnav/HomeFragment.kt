@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.toonandtools.core_ui.R
@@ -12,6 +14,12 @@ import com.toonandtools.core_ui.adapter.QuoteAdapter
 import com.toonandtools.core_ui.data.QuoteItem
 import com.toonandtools.core_ui.databinding.FragmentHomeBinding
 import com.toonandtools.core_ui.layout.CenterZoomLayoutVertical
+import com.toonandtools.core_ui.repository.FirestoreDB
+import com.toonandtools.core_ui.repository.UserRepository
+import com.toonandtools.core_ui.viewmodel.FirestoreViewModelFactory
+import com.toonandtools.core_ui.viewmodel.FirestoreViewmodel
+import com.toonandtools.core_ui.viewmodel.UserViewModelFactory
+import com.toonandtools.core_ui.viewmodel.UserViewmodel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +32,8 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: QuoteAdapter
     private lateinit var quoteList:MutableList<QuoteItem>
     private lateinit var snapHelper: SnapHelper
+    private lateinit var viewmodel: FirestoreViewmodel
+    private lateinit var userViewmodel: UserViewmodel
 
 
 
@@ -44,15 +54,26 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewmodel = ViewModelProvider(this, FirestoreViewModelFactory(FirestoreDB())).get(FirestoreViewmodel::class.java)
+
+        userViewmodel = ViewModelProvider(this, UserViewModelFactory(UserRepository())).get(UserViewmodel::class.java)
+
         val layoutManager = CenterZoomLayoutVertical(requireContext())
         binding.quotesRecyclerView.layoutManager = layoutManager
         quoteList = mutableListOf()
-        adapter = QuoteAdapter(quoteList)
+        adapter = QuoteAdapter(quoteList,userViewmodel)
         snapHelper = LinearSnapHelper()
         binding.quotesRecyclerView.adapter = adapter
         snapHelper.attachToRecyclerView(binding.quotesRecyclerView)
-        quoteList.addAll(DummyQuotesData.quoteList)
-        adapter.notifyDataSetChanged()
+
+        viewmodel.fetchAllQuotes().observe(viewLifecycleOwner) { items ->
+            quoteList.clear()
+            quoteList.addAll(items)
+            adapter.notifyDataSetChanged()
+        }
+
+//        quoteList.addAll(DummyQuotesData.quoteList)
+//        adapter.notifyDataSetChanged()
 
 
     }

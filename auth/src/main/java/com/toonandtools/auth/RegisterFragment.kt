@@ -16,10 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.toonandtools.auth.databinding.FragmentLoginBinding
 import com.toonandtools.auth.databinding.FragmentRegisterBinding
 import com.toonandtools.auth.repository.AuthRepository
+import com.toonandtools.auth.repository.UserRepository
 import com.toonandtools.auth.util.AuthResult
 import com.toonandtools.auth.viewmodel.AuthViewModel
 import com.toonandtools.auth.viewmodel.AuthViewModelFactory
 import com.toonandtools.auth.viewmodel.RegisterViewModel
+import com.toonandtools.auth.viewmodel.UserViewModel
+import com.toonandtools.auth.viewmodel.UserViewModelFactory
 import com.toonandtools.core_ui.CoreActivity
 
 
@@ -29,6 +32,8 @@ class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel
     private lateinit var authViewModel: AuthViewModel
     private val GOOGLE_SIGN_IN = 1001
+
+    private lateinit var userViewModel: UserViewModel
 
 
     override fun onCreateView(
@@ -50,6 +55,10 @@ class RegisterFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[RegisterViewModel::class.java]
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
+        val userViewModelFactory = UserViewModelFactory(UserRepository())
+        userViewModel = ViewModelProvider(this,userViewModelFactory).get(UserViewModel::class.java)
+
+
         binding.btnRegister.setOnClickListener {
             val email = binding.emailLayout.editText?.text.toString().trim()
             val password = binding.passwordLayout.editText?.text.toString().trim()
@@ -61,13 +70,21 @@ class RegisterFragment : Fragment() {
             }
 
             viewModel.register(email, password)
+
         }
 
         viewModel.registerResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is AuthResult.Success -> {
+                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    currentUser?.let { user ->
+                        // Save to Firebase DB
+                        userViewModel.saveUserData(user.email ?: "", user.displayName ?: "No Name")
+                    }
+
                     Toast.makeText(requireContext(), "Registered successfully", Toast.LENGTH_SHORT).show()
                     // Navigate to loginFragment
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
 
                 is AuthResult.Failure -> {
